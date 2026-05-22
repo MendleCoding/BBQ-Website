@@ -4,13 +4,24 @@
 
 Bei jeder Erweiterung, Aenderung oder neuen Funktion an dieser BBQ-Website muss zuerst diese Datei gelesen werden.
 
-Diese Datei beschreibt die gewuenschte Struktur, Navigation, Dateibenennung und Funktionslogik der digitalen Speisekarten-Website. Neue Features sollen sich an diesem Ablauf orientieren und die bestehende Seitenlogik nicht brechen.
+Diese Datei beschreibt die verbindliche Struktur, Navigation, Dateibenennung und Funktionslogik der digitalen BBQ-Speisekarten-Website. Neue Menues und Features muessen sich am aktuellen Apple-Bourbon-Smoke-Menue orientieren, damit spaeter alles gleich aufgebaut ist.
+
+## Aktueller Standard
+
+- Derzeit ist 1 Menue vorhanden.
+- Weitere Menues folgen spaeter und sollen nach dem gleichen Muster aufgebaut werden.
+- Die Website ist eine digitale Menue-App, keine Download-Sammlung.
+- Rezept- und Einkaufslisteninhalte werden direkt in der Website als starke Informationsseiten aufgebaut.
+- ODT-Dateien dienen als Inhaltsquelle, sollen aber nicht als sichtbare Hauptlinks angezeigt werden.
+- Die obere Hauptnavigation ist die zentrale Navigation.
+- Zusaetzliche Buttons wie `Zur Speisekarte`, `Zum Gang` oder `Zurueck` sollen nicht im Inhalt angezeigt werden, solange der Nutzer sie nicht ausdruecklich wuenscht.
+- Speisekarten- und Gangbilder sollen per Klick als reine Grafikansicht angezeigt werden.
 
 ## Ziel der Website
 
 Die Website stellt digitale BBQ-Speisekarten dar.
 
-Der Nutzer startet im Hauptmenue. Dort sieht er verschiedene Speisekarten. Wenn er auf eine Speisekarte klickt, geht die Navigation eine Ebene tiefer und zeigt die vorhandenen Menuebestandteile.
+Der Nutzer startet in der Menue-Ansicht. Dort sieht er die Speisekarte und die vorhandenen Gang-Karten. Ueber die obere Navigation kann er jederzeit zwischen Menue, Vorspeise, Hauptspeise, Beilage und Dessert wechseln.
 
 Eine vollstaendige Speisekarte kann aus folgenden Bereichen bestehen:
 
@@ -19,47 +30,49 @@ Eine vollstaendige Speisekarte kann aus folgenden Bereichen bestehen:
 - Beilage
 - Dessert
 
-Jeder vorhandene Bereich soll ein Titelbild haben. Zu jedem vorhandenen Bereich koennen eine Einkaufsliste und ein Rezept aufrufbar sein.
+Fehlende Bereiche sind erlaubt und werden nicht angezeigt.
 
-## Funktionsdiagramm
+## Verbindliches Funktionsdiagramm
 
 ```text
-HAUPTMENUE
-└── Speisekarten-Uebersicht
-    ├── Speisekarte 1
-    ├── Speisekarte 2
-    ├── Speisekarte 3
-    └── Speisekarte n
-
-Beim Klick auf eine Speisekarte:
-
-SPEISEKARTE
-├── Speisekarte.png
-│
-├── Vorspeise
-│   ├── Vorspeise.png
-│   ├── VorspeiseEinkaufsliste.odt
-│   └── VorspeiseRezept.odt
-│
-├── Hauptspeise
-│   ├── Hauptspeise.png
-│   ├── HauptspeiseEinkaufsliste.odt
-│   └── HauptspeiseRezept.odt
-│
-├── Beilage
-│   ├── Beilage.png
-│   ├── BeilageEinkaufsliste.odt
-│   └── BeilageRezept.odt
-│
-└── Dessert
-    ├── Dessert.png
-    ├── DessertEinkaufsliste.odt
-    └── DessertRezept.odt
+WEBSITE
+|
+|-- Obere Hauptnavigation
+|   |-- Menue
+|   |-- Vorspeise, falls vorhanden
+|   |-- Hauptspeise, falls vorhanden
+|   |-- Beilage, falls vorhanden
+|   |-- Dessert, falls vorhanden
+|
+|-- Menue-Ansicht
+|   |-- Speisekarte.png gross sichtbar
+|   |-- Kurzbeschreibung des Menues
+|   |-- Karten fuer alle vorhandenen Gaenge
+|
+|-- Gang-Ansicht
+|   |-- Gangbild gross sichtbar
+|   |-- Titel, Untertitel, Kurzbeschreibung
+|   |-- Meta-Informationen, z. B. Portionen, Temperatur, Charakter
+|   |-- Auswahlkarte Einkaufsliste
+|   |-- Auswahlkarte Rezept
+|
+|-- Einkaufsliste-Unterseite
+|   |-- Zutaten direkt als strukturierte Karten
+|   |-- Keine ODT-Links anzeigen
+|
+|-- Rezept-Unterseite
+|   |-- Zubereitungsschritte direkt als strukturierte Karten
+|   |-- Setup, Timing und Profi-Hinweise als Zusatzkarten
+|
+|-- Reine Grafikansicht
+|   |-- Klick auf Speisekarte.png oder Gangbild oeffnet nur die Grafik
+|   |-- Keine zusaetzlichen Zurueck-Buttons in der Bildansicht
+|   |-- Navigation weiterhin ueber die obere Hauptnavigation
 ```
 
-## Erwartete Dateien pro vollstaendiger Speisekarte
+## Erwartete Dateien pro vollstaendigem Menue
 
-Wenn ein neues Rezept beziehungsweise eine neue Speisekarte geliefert wird, koennen die Dateien so aussehen:
+Wenn ein neues Menue geliefert wird, koennen die Dateien so aussehen:
 
 ```text
 Speisekarte.png
@@ -81,197 +94,238 @@ DessertEinkaufsliste.odt
 DessertRezept.odt
 ```
 
-Die Dateinamen sind als feste Konvention zu behandeln. Wenn moeglich, sollen neue Speisekarten anhand dieser Namen automatisch oder halbautomatisch eingebunden werden.
+Die Dateinamen sind feste Konvention. Fuer die Website werden die Bilder kopiert und die ODT-Inhalte in strukturierte Website-Daten uebertragen.
 
-## Sonderfall: einzelne Gerichte
+## Asset-Struktur
 
-Es kann vorkommen, dass eine Speisekarte nicht aus allen Bereichen besteht.
+Jedes Menue bekommt einen eigenen Asset-Ordner:
+
+```text
+assets/
+|-- menue-id/
+|   |-- Speisekarte.png
+|   |-- Vorspeise.png
+|   |-- Hauptspeise.png
+|   |-- Beilage.png
+|   |-- Dessert.png
+```
 
 Beispiel:
 
-Der Nutzer sagt, dass es nur ein Hauptgericht gibt.
-
-Dann fehlen Vorspeise, Beilage und Dessert absichtlich, weil sie nicht benoetigt werden. In diesem Fall darf die Website keine leeren Bereiche fuer fehlende Kategorien anzeigen.
-
-Die Navigation soll dann vereinfacht werden:
-
 ```text
-HAUPTMENUE
-└── Speisekarte
-    └── Hauptspeise
-        ├── Hauptspeise.png
-        ├── HauptspeiseEinkaufsliste.odt
-        └── HauptspeiseRezept.odt
+assets/apple-bourbon-smoke/
 ```
 
-Wenn nur ein einzelnes Gericht vorhanden ist, soll die Speisekarte direkt und klar zu diesem Gericht fuehren. Danach soll der Nutzer einfach zurueck zum Hauptmenue oder zur Speisekarten-Uebersicht kommen.
+Alte, nicht mehr verwendete Bilder sollen entfernt werden, wenn ein Menue ersetzt wird.
+
+## Datenstruktur fuer Gaenge
+
+Fuer die aktuelle Umsetzung ist pro Gang diese Struktur bevorzugt:
+
+```js
+{
+  id: "vorspeise",
+  label: "Vorspeise",
+  title: "Gegrillte Mais-Tartelette",
+  subtitle: "mit Apfel-Senf-Creme & Pickle-Fenchel",
+  image: "assets/menue-id/Vorspeise.png",
+  meta: ["6 Portionen", "Plancha 200-220 °C", "Frisch"],
+  intro: "Kurzer Beschreibungstext des Gangs.",
+  shopping: [
+    ["Komponente", "Zutaten und Mengen"]
+  ],
+  steps: [
+    "Zubereitungsschritt 1"
+  ],
+  panels: [
+    ["Setup", "Zusatzinformation"]
+  ]
+}
+```
+
+`shopping`, `steps` und `panels` werden aus den gelieferten Rezept- und Einkaufslisten-Dateien aufgebaut.
+
+## Schritt-fuer-Schritt-Anleitung fuer ein neues Menue
+
+1. `Instruction.md` lesen.
+2. Pruefen, welche Kategorien vorhanden sind: Vorspeise, Hauptspeise, Beilage, Dessert.
+3. Einen neuen Asset-Ordner pro Menue anlegen, z. B. `assets/neues-menue/`.
+4. Gelieferte Bilder nach fester Konvention in diesen Ordner kopieren.
+5. Gelieferte ODT-Dateien nur als Quelle verwenden.
+6. Text aus Rezepten und Einkaufslisten extrahieren.
+7. Inhalte in die strukturierte Datenform uebertragen:
+   - `shopping` fuer Zutaten und Mengen
+   - `steps` fuer Zubereitungsschritte
+   - `panels` fuer Setup, Timing, Servieren, Profi-Tipps oder wichtige Hinweise
+8. Nur vorhandene Gaenge in Navigation und Menue-Ansicht anzeigen.
+9. Pro Gang eine Gang-Ansicht erstellen:
+   - Bild vollstaendig anzeigen
+   - Titel, Untertitel, Beschreibung und Meta-Daten anzeigen
+   - Auswahlkarten fuer Einkaufsliste und Rezept anzeigen
+10. Pro Gang eine Einkaufsliste-Unterseite erstellen:
+    - Zutaten gruppiert als Karten anzeigen
+    - Mengen gut lesbar darstellen
+11. Pro Gang eine Rezept-Unterseite erstellen:
+    - Schritte klar nummeriert oder als Prozesskarten darstellen
+    - Setup, Timing und Profi-Tipps als Zusatzkarten darstellen
+12. Bildklick aktivieren:
+    - Speisekarte und Gangbilder sollen als reine Grafikansicht oeffnen
+    - Die Grafikansicht zeigt nur die Grafik
+13. Navigation testen:
+    - Menue
+    - Vorspeise
+    - Hauptspeise
+    - Beilage
+    - Dessert
+    - Einkaufsliste pro Gang
+    - Rezept pro Gang
+    - Bildansicht pro Bild
+14. Mobile Darstellung pruefen:
+    - Bilder duerfen nicht abgeschnitten sein
+    - Text darf nicht ueberlappen
+    - Karten muessen sauber umbrechen
+15. Erst nach Funktionspruefung committen und pushen, wenn der Nutzer es wuenscht.
+
+## Navigationslogik
+
+```text
+Start
+ |
+ v
+Menue-Ansicht
+ |
+ |-- obere Navigation: Menue
+ |-- obere Navigation: Vorspeise
+ |-- obere Navigation: Hauptspeise
+ |-- obere Navigation: Beilage
+ |-- obere Navigation: Dessert
+ |
+ v
+Gang-Ansicht
+ |
+ |-- Einkaufsliste-Karte
+ |     |
+ |     v
+ |     Einkaufsliste-Unterseite
+ |
+ |-- Rezept-Karte
+ |     |
+ |     v
+ |     Rezept-Unterseite
+ |
+ |-- Klick auf Grafik
+       |
+       v
+       Reine Grafikansicht
+```
+
+Die obere Hauptnavigation ist der Rueckweg und Hauptweg. Keine separaten Zurueck-Buttons im Inhalt verwenden.
+
+## Sonderfall: reduzierte Menues
+
+Es kann vorkommen, dass eine Speisekarte nicht aus allen Bereichen besteht.
+
+Beispiel: Der Nutzer liefert nur ein Hauptgericht.
+
+Dann fehlen Vorspeise, Beilage und Dessert absichtlich. In diesem Fall darf die Website keine leeren Bereiche fuer fehlende Kategorien anzeigen.
+
+```text
+WEBSITE
+|
+|-- Obere Hauptnavigation
+|   |-- Menue
+|   |-- Hauptspeise
+|
+|-- Menue-Ansicht
+|-- Hauptspeise-Ansicht
+|-- Einkaufsliste-Unterseite
+|-- Rezept-Unterseite
+|-- Reine Grafikansicht
+```
 
 Wichtig:
 
 - Fehlende Kategorien sind kein Fehler.
-- Fehlende Kategorien sollen nicht als leere Platzhalter angezeigt werden.
-- Der Nutzer muss vorher sagen, wenn nur bestimmte Elemente vorhanden sind.
-- Nur vorhandene Dateien und Kategorien sollen in der Navigation erscheinen.
-
-## Navigationslogik fuer vollstaendige Speisekarten
-
-```text
-Start
- ↓
-Hauptmenue mit mehreren Speisekarten
- ↓ Klick auf Speisekarte
-Detailansicht der gewaehlten Speisekarte
- ↓
-Vorspeise | Hauptspeise | Beilage | Dessert
- ↓ Klick auf Kategorie
-Kategorie oeffnet sich
- ↓
-Einkaufsliste oder Rezept auswaehlbar
- ↓
-Zurueck zur Kategorie, zur Speisekarte oder zum Hauptmenue
-```
-
-## Navigationslogik fuer reduzierte Speisekarten
-
-```text
-Start
- ↓
-Hauptmenue mit mehreren Speisekarten
- ↓ Klick auf Speisekarte
-Nur vorhandene Kategorie anzeigen
- ↓
-Einkaufsliste oder Rezept auswaehlbar
- ↓
-Zurueck zur Speisekarte oder direkt zum Hauptmenue
-```
+- Fehlende Kategorien nicht als Platzhalter anzeigen.
+- Nur vorhandene Dateien und Kategorien in Navigation und Menue-Ansicht zeigen.
 
 ## Gewuenschte Bedienung
 
-- Blättern zwischen den vorhandenen Bereichen soll moeglich sein.
-- Der Nutzer soll jederzeit zur aktuellen Speisekarte zurueck koennen.
-- Der Nutzer soll jederzeit zurueck zum Hauptmenue koennen.
-- Kategorien sollen visuell als einzelne Bereiche oder Karten dargestellt werden.
+- Die obere Hauptnavigation reicht fuer den Wechsel zwischen Menue und Gaengen aus.
+- Die aktive Ansicht muss in der oberen Navigation sichtbar markiert werden.
+- Kategorien sollen visuell als einzelne Karten dargestellt werden.
 - Jede vorhandene Kategorie braucht ein Titelbild.
 - Einkaufsliste und Rezept sollen getrennt aufrufbar sein.
-- Die Struktur soll spaeter leicht erweiterbar sein.
+- Einkaufsliste und Rezept sollen Website-Unterseiten sein, keine ODT-Downloadlinks.
+- Bilder muessen anklickbar sein und als reine Grafik angezeigt werden koennen.
+- Bilder duerfen auf Desktop und Mobilgeraeten nicht abgeschnitten werden.
 - Nicht vorhandene Kategorien sollen ausgeblendet werden.
+- Die Struktur soll spaeter leicht erweiterbar sein.
 
-## Empfohlene Seitenstruktur
+## Seitenstruktur
+
+Die Website ist als Single-Page-App in `index.html` aufgebaut.
 
 ```text
 index.html
-├── Hauptmenue
-│   └── Speisekarten-Karten
-│
-├── Speisekarten-Detailansicht
-│   ├── Vorspeise, falls vorhanden
-│   ├── Hauptspeise, falls vorhanden
-│   ├── Beilage, falls vorhanden
-│   └── Dessert, falls vorhanden
-│
-├── Detailbereich Einkaufsliste
-│
-└── Detailbereich Rezept
+|-- Header mit Hauptnavigation
+|-- View: Menue
+|-- View: Gang-Detail
+|-- View: Einkaufsliste-Unterseite
+|-- View: Rezept-Unterseite
+|-- View: reine Bildansicht
 ```
 
-## Empfohlene Datenstruktur
+Die Views duerfen per JavaScript dynamisch gerendert werden. Wichtig ist, dass die Navigation stabil bleibt und keine nicht vorhandenen Kategorien erzeugt werden.
 
-Speisekarten sollen moeglichst strukturiert gepflegt werden.
+## Designrichtung
 
-Beispiel fuer eine vollstaendige Speisekarte:
+Die Website soll wie eine digitale BBQ-Menuekarte wirken:
 
-```js
-const speisekarten = [
-  {
-    id: "bbq-menue-1",
-    titel: "BBQ Menue 1",
-    bild: "assets/bbq-menue-1/Speisekarte.png",
-    kategorien: {
-      vorspeise: {
-        titel: "Vorspeise",
-        bild: "assets/bbq-menue-1/Vorspeise.png",
-        einkaufsliste: "assets/bbq-menue-1/VorspeiseEinkaufsliste.odt",
-        rezept: "assets/bbq-menue-1/VorspeiseRezept.odt"
-      },
-      hauptspeise: {
-        titel: "Hauptspeise",
-        bild: "assets/bbq-menue-1/Hauptspeise.png",
-        einkaufsliste: "assets/bbq-menue-1/HauptspeiseEinkaufsliste.odt",
-        rezept: "assets/bbq-menue-1/HauptspeiseRezept.odt"
-      },
-      beilage: {
-        titel: "Beilage",
-        bild: "assets/bbq-menue-1/Beilage.png",
-        einkaufsliste: "assets/bbq-menue-1/BeilageEinkaufsliste.odt",
-        rezept: "assets/bbq-menue-1/BeilageRezept.odt"
-      },
-      dessert: {
-        titel: "Dessert",
-        bild: "assets/bbq-menue-1/Dessert.png",
-        einkaufsliste: "assets/bbq-menue-1/DessertEinkaufsliste.odt",
-        rezept: "assets/bbq-menue-1/DessertRezept.odt"
-      }
-    }
-  }
-];
-```
+- BBQ-Atmosphaere
+- klare Kartenstruktur
+- grosse appetitliche Bilder
+- einfache obere Hauptnavigation
+- gut lesbare Texte
+- keine ueberladene Startseite
+- keine doppelten Navigationsbuttons im Inhalt
+- der Nutzer soll direkt die Speisekarten benutzen koennen
 
-Beispiel fuer eine reduzierte Speisekarte mit nur Hauptspeise:
+## Bildregeln
 
-```js
-const speisekarten = [
-  {
-    id: "bbq-hauptgericht-1",
-    titel: "BBQ Hauptgericht",
-    bild: "assets/bbq-hauptgericht-1/Speisekarte.png",
-    kategorien: {
-      hauptspeise: {
-        titel: "Hauptspeise",
-        bild: "assets/bbq-hauptgericht-1/Hauptspeise.png",
-        einkaufsliste: "assets/bbq-hauptgericht-1/HauptspeiseEinkaufsliste.odt",
-        rezept: "assets/bbq-hauptgericht-1/HauptspeiseRezept.odt"
-      }
-    }
-  }
-];
-```
+- Grafiken immer vollstaendig anzeigen, nicht croppen.
+- Fuer Speisekarten- und Ganggrafiken `object-fit: contain` verwenden.
+- Klick auf Speisekarte oder Gangbild oeffnet eine reine Grafikansicht.
+- In der reinen Grafikansicht keine Zusatzbuttons anzeigen, solange nicht ausdruecklich gewuenscht.
+- Text und Bilder duerfen mobil nicht ueberlappen.
 
 ## Erweiterungsregeln
 
 Wenn neue Speisekarten ergaenzt werden:
 
-1. Neue Speisekarten muessen im Hauptmenue erscheinen.
+1. Neue Menues muessen im gleichen Muster wie das aktuelle Menue aufgebaut werden.
 2. Die Datei `Speisekarte.png` ist das Hauptbild der Speisekarte.
 3. Vorhandene Kategorien sollen anhand ihrer Dateien eingebunden werden.
 4. Nicht vorhandene Kategorien sollen nicht angezeigt werden.
 5. Jede vorhandene Kategorie soll ein Titelbild bekommen.
-6. Jede vorhandene Kategorie soll eine Einkaufsliste und ein Rezept besitzen, sofern die Dateien geliefert wurden.
-7. Fehlende Inhalte sollen sichtbar abgefangen werden, zum Beispiel mit `Noch kein Rezept vorhanden`.
-8. Die Navigation zurueck zur Speisekarte oder zum Hauptmenue darf nicht verloren gehen.
-9. Die Website soll auf Desktop und Mobilgeraeten bedienbar bleiben.
-
-## Designrichtung
-
-Die Website soll wie eine digitale Menuekarte wirken:
-
-- BBQ-Atmosphaere
-- klare Kartenstruktur
-- grosse appetitliche Bilder
-- einfache Navigation
-- gut lesbare Texte
-- keine ueberladene Startseite
-- der Nutzer soll direkt die Speisekarten benutzen koennen
+6. Rezept- und Einkaufslisteninhalte sollen direkt als Website-Inhalte aufgebaut werden.
+7. Fehlende Inhalte sollen sichtbar abgefangen werden, z. B. mit `Noch kein Rezept vorhanden`.
+8. Die obere Hauptnavigation muss immer funktionieren.
+9. Die Website muss auf Desktop und Mobilgeraeten bedienbar bleiben.
+10. Die reine Grafikansicht per Bildklick muss erhalten bleiben.
+11. Zusatztasten wie `Zur Speisekarte`, `Zum Gang` oder `Zurueck` nicht einbauen, solange der Nutzer sie nicht ausdruecklich wuenscht.
 
 ## Prioritaet bei zukuenftigen Aenderungen
 
 Bei Erweiterungen gilt folgende Reihenfolge:
 
-1. Funktionierende Navigation
+1. Funktionierende obere Hauptnavigation
 2. Verstaendliche Speisekarten-Struktur
 3. Korrekte Behandlung fehlender Kategorien
-4. Saubere mobile Darstellung
-5. Gute Bilder und visuelle Wirkung
-6. Animationen oder zusaetzliche Effekte erst danach
+4. Rezept- und Einkaufslisteninhalte direkt in der Website
+5. Saubere mobile Darstellung
+6. Gute Bilder und visuelle Wirkung
+7. Animationen oder zusaetzliche Effekte erst danach
 
 ## Wichtigste Codex-Anweisung
 
@@ -279,8 +333,12 @@ Vor jeder Erweiterung oder groesseren Aenderung an dieser Website:
 
 ```text
 Lies zuerst die Datei Instruction.md.
-Halte dich an die dort beschriebene Speisekarten-Logik.
-Beachte die feste Dateinamen-Konvention.
+Baue jedes weitere Menue im gleichen Muster wie das aktuelle Apple Bourbon Smoke Menue.
+Nutze die obere Hauptnavigation als zentrale Navigation.
 Zeige nur Kategorien an, die fuer die jeweilige Speisekarte wirklich vorhanden sind.
-Erweitere die Website nur so, dass Hauptmenue, Speisekarte, Kategorien, Einkaufsliste und Rezept weiterhin klar zusammenhaengen.
+Baue Einkaufsliste und Rezept als starke Informationsseiten in die Website ein.
+Verwende ODT-Dateien als Inhaltsquelle, nicht als sichtbare Hauptlinks.
+Zeige keine unnoetigen Zurueck-Buttons im Inhalt.
+Erhalte die reine Grafikansicht per Bildklick.
+Halte Bilder vollstaendig sichtbar und mobil sauber.
 ```
