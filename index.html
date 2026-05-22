@@ -344,11 +344,13 @@
         previousView = { ...currentView };
         imageViewer.innerHTML = `
           <div class="image-only-shell">
+            <button type="button" class="image-close" aria-label="Bild schließen">×</button>
             <img src="${src}" alt="${title}" />
           </div>
         `;
         views.forEach((view) => view.classList.toggle("is-active", view.id === "imageViewer"));
         navButtons.forEach((button) => button.classList.remove("is-active"));
+        imageViewer.querySelector(".image-close").addEventListener("click", restorePreviousView);
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
