@@ -16,11 +16,11 @@
         </div>
       </div>
       <nav class="top-nav" aria-label="Speisekarte">
-        <button type="button" data-view="overview" class="is-active">Menü</button>
-        <button type="button" data-view="vorspeise">Vorspeise</button>
-        <button type="button" data-view="hauptspeise">Hauptspeise</button>
-        <button type="button" data-view="beilage">Beilage</button>
-        <button type="button" data-view="dessert">Dessert</button>
+        <button type="button" data-view="overview" onclick="showView('overview')" class="is-active">Menü</button>
+        <button type="button" data-view="vorspeise" onclick="showView('vorspeise')">Vorspeise</button>
+        <button type="button" data-view="hauptspeise" onclick="showView('hauptspeise')">Hauptspeise</button>
+        <button type="button" data-view="beilage" onclick="showView('beilage')">Beilage</button>
+        <button type="button" data-view="dessert" onclick="showView('dessert')">Dessert</button>
       </nav>
     </header>
 
@@ -404,10 +404,6 @@
         views.forEach((view) => view.classList.toggle("is-active", view.id === "detail"));
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
-
-      navButtons.forEach((button) => {
-        button.addEventListener("click", () => showView(button.dataset.view));
-      });
 
       renderOverview();
       bindImageOpeners();
