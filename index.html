@@ -405,6 +405,10 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => showView(button.dataset.view));
+      });
+
       renderOverview();
       bindImageOpeners();
     </script>
