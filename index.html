@@ -224,10 +224,6 @@
         currentView = { type: "course", courseId: course.id };
         detail.innerHTML = `
           <div class="detail-shell">
-            <div class="page-actions" aria-label="Navigation">
-              <button type="button" class="back-button" data-action="overview">Zur Speisekarte</button>
-            </div>
-
             <div class="detail-hero">
               <img class="open-image" data-image-src="${course.image}" data-image-title="${course.title}" src="${course.image}" alt="${course.title}" />
               <div class="detail-title">
@@ -264,10 +260,6 @@
               <p class="eyebrow">${course.label}</p>
               <h2>${course.title}: ${title}</h2>
               <p>${text}</p>
-            </div>
-            <div class="page-actions compact" aria-label="Zurück">
-              <button type="button" class="back-button" data-action="course" data-course="${course.id}">Zum Gang</button>
-              <button type="button" class="back-button" data-action="overview">Zur Speisekarte</button>
             </div>
           </div>
         `;
@@ -352,17 +344,11 @@
         previousView = { ...currentView };
         imageViewer.innerHTML = `
           <div class="image-only-shell">
-            <div class="page-actions" aria-label="Bildnavigation">
-              <button type="button" class="back-button" data-image-back>Zurück</button>
-              <button type="button" class="back-button" data-action="overview">Zur Speisekarte</button>
-            </div>
             <img src="${src}" alt="${title}" />
           </div>
         `;
         views.forEach((view) => view.classList.toggle("is-active", view.id === "imageViewer"));
         navButtons.forEach((button) => button.classList.remove("is-active"));
-        imageViewer.querySelector("[data-image-back]").addEventListener("click", restorePreviousView);
-        imageViewer.querySelector("[data-action='overview']").addEventListener("click", () => showView("overview"));
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
