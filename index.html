@@ -3,159 +3,274 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cherry Bourbon BBQ Competition Menü</title>
+    <title>Apple Bourbon Smoke Menü</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
-      <header class="topbar" aria-label="Menü Navigation">
+    <header class="site-header">
+      <div class="brand">
+        <span class="flame" aria-hidden="true">▲</span>
         <div>
-          <p class="eyebrow">BBQ Auswahl</p>
-          <h1>Cherry Bourbon BBQ Competition Menü</h1>
+          <p class="eyebrow">Low & Slow BBQ Passion</p>
+          <h1>Apple Bourbon Smoke Menü</h1>
+        </div>
+      </div>
+      <nav class="top-nav" aria-label="Speisekarte">
+        <button type="button" data-view="overview" class="is-active">Menü</button>
+        <button type="button" data-view="vorspeise">Vorspeise</button>
+        <button type="button" data-view="hauptspeise">Hauptspeise</button>
+        <button type="button" data-view="beilage">Beilage</button>
+        <button type="button" data-view="dessert">Dessert</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="view overview-view is-active" id="overview" aria-labelledby="overview-title">
+        <div class="menu-hero">
+          <img
+            src="assets/apple-bourbon-smoke/Speisekarte.png"
+            alt="Apple Bourbon Smoke Menü mit Vorspeise, Hauptgang, Beilage und Dessert"
+          />
+          <div class="hero-copy">
+            <p class="eyebrow">Vier Gänge · 6 Personen</p>
+            <h2 id="overview-title">Rauch, Apfel, Bourbon, Handwerk.</h2>
+            <p>
+              Ein vollständiges BBQ-Menü mit gegrillter Mais-Tartelette, Pulled Pork,
+              Apfel-Fenchel-Slaw und gegrilltem Apfel mit Bourbon-Karamell.
+            </p>
+          </div>
         </div>
 
-        <nav class="quick-nav" aria-label="Direkt zu den Gängen">
-          <button type="button" data-target="menuekarte">Menü</button>
-          <button type="button" data-target="vorspeise">Vorspeise</button>
-          <button type="button" data-target="hauptgang">Hauptgang</button>
-          <button type="button" data-target="beilage">Beilage</button>
-          <button type="button" data-target="desert">Desert</button>
-        </nav>
-      </header>
-
-      <section class="menu-reader" aria-label="Swipebares BBQ Menü">
-        <div class="reader-actions" aria-label="Blättern">
-          <button class="icon-button" type="button" data-direction="-1" aria-label="Vorherige Seite">
-            ‹
-          </button>
-          <p id="reader-status">Menükarte 1 von 5</p>
-          <button class="icon-button" type="button" data-direction="1" aria-label="Nächste Seite">
-            ›
-          </button>
-        </div>
-
-        <div class="slide-track" tabindex="0">
-          <article class="slide" id="menuekarte" data-title="Menükarte">
-            <div class="image-stage menu-stage">
-              <img
-                src="assets/menuekarte.png"
-                alt="Cherry Bourbon BBQ Competition Menükarte mit Vorspeise, Hauptgang, Beilage und Desert"
-              />
-              <div class="menu-hotspots" aria-label="Menükarte Bereiche">
-                <button type="button" data-target="vorspeise">Vorspeise</button>
-                <button type="button" data-target="hauptgang">Hauptgang</button>
-                <button type="button" data-target="beilage">Beilage</button>
-                <button type="button" data-target="desert">Desert</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="slide" id="vorspeise" data-title="Vorspeise">
-            <div class="image-stage">
-              <img
-                src="assets/vorspeise.png"
-                alt="Smoked Camembert Crostini mit Cherry-Chili-Relish Rezeptkarte"
-              />
-            </div>
-          </article>
-
-          <article class="slide" id="hauptgang" data-title="Hauptgang">
-            <div class="image-stage">
-              <img
-                src="assets/hauptgang.png"
-                alt="Cherry Bourbon Ribs High-End Competition Style Rezeptkarte"
-              />
-            </div>
-          </article>
-
-          <article class="slide" id="beilage" data-title="Beilage">
-            <div class="image-stage">
-              <img
-                src="assets/beilage.png"
-                alt="Limetten-Fenchel-Slaw mit gegrilltem Mais, Apfel, Jalapeño und Kirsch-Crunch Rezeptkarte"
-              />
-            </div>
-          </article>
-
-          <article class="slide" id="desert" data-title="Desert">
-            <div class="image-stage">
-              <img
-                src="assets/desert.png"
-                alt="Bourbon Cherry Cobbler vom Grill mit Vanillecreme Rezeptkarte"
-              />
-            </div>
-          </article>
-        </div>
-
-        <div class="progress-dots" aria-label="Seiten">
-          <button type="button" data-target="menuekarte" aria-label="Menükarte anzeigen"></button>
-          <button type="button" data-target="vorspeise" aria-label="Vorspeise anzeigen"></button>
-          <button type="button" data-target="hauptgang" aria-label="Hauptgang anzeigen"></button>
-          <button type="button" data-target="beilage" aria-label="Beilage anzeigen"></button>
-          <button type="button" data-target="desert" aria-label="Desert anzeigen"></button>
-        </div>
+        <div class="course-grid" id="courseGrid"></div>
       </section>
+
+      <section class="view detail-view" id="detail" aria-live="polite"></section>
     </main>
 
     <script>
-      const track = document.querySelector(".slide-track");
-      const slides = [...document.querySelectorAll(".slide")];
-      const statusText = document.querySelector("#reader-status");
-      const navButtons = [...document.querySelectorAll("[data-target]")];
-      const directionButtons = [...document.querySelectorAll("[data-direction]")];
+      const courses = [
+        {
+          id: "vorspeise",
+          label: "Vorspeise",
+          title: "Gegrillte Mais-Tartelette",
+          subtitle: "mit Apfel-Senf-Crème & Pickle-Fenchel",
+          image: "assets/apple-bourbon-smoke/Vorspeise.png",
+          meta: ["6 Tartelettes", "Plancha 200-220 °C", "Frisch · knackig · rauchig"],
+          intro:
+            "Knuspriger Boden, warmer Grillmais, kalte Apfel-Senf-Crème und fein gepickelter Fenchel. Der Gang soll leicht starten, aber sofort BBQ-Charakter zeigen.",
+          shopping: [
+            ["Tartelette-Böden", "Mürbeteig 300 g, Butter 10 g, Mehl 10 g, Eigelb 1, Milch 1 EL"],
+            ["Gegrillte Maisfüllung", "Maiskolben 3, Butter 25 g, Rapsöl 15 ml, Schalotte 1 kleine, Knoblauch 1 Zehe, geräuchertes Paprikapulver 1 TL"],
+            ["Apfel-Senf-Crème", "Crème fraîche 120 g, griechischer Joghurt 60 g, Dijon-Senf 18 g, säuerlicher Apfel 1 kleiner, Honig 10 g, Limette"],
+            ["Pickle-Fenchel", "Fenchel 1 kleine Knolle, Apfelessig 80 ml, Wasser 60 ml, Zucker 20 g, Salz 5 g, Senfkörner, Fenchelsaat"],
+            ["Finish", "Kürbiskerne 20 g, Kresse 15 g, Fenchelgrün, Schnittlauch 5 g, Chiliöl, Salzflocken"]
+          ],
+          steps: [
+            "Fenchel sehr fein hobeln, heißen Essig-Sud darübergeben und mindestens 30 Minuten ziehen lassen.",
+            "Apfel reiben und mit Crème fraîche, Joghurt, Dijon-Senf, Honig, Limette, Salz und weißem Pfeffer verrühren.",
+            "Mürbeteig in gebutterte Förmchen legen, einstechen, 10 Minuten bei 180 °C blindbacken, bepinseln und weitere 5-7 Minuten backen.",
+            "Mais auf der Plancha 8-10 Minuten grillen, vom Kolben schneiden und mit Schalotte, Knoblauch, Butter, Paprika und Limette rösten.",
+            "Tartelette mit warmem Mais füllen, Crème aufsetzen, Pickle-Fenchel locker darüberlegen und mit Kernen, Kresse, Öl und Salzflocken finishen."
+          ],
+          panels: [
+            ["Servieren", "Tartelette lauwarm, Mais warm, Crème kalt, Fenchel kühl. Erst kurz vor dem Servieren zusammensetzen."],
+            ["Ziel", "Knuspriger Boden, frischer Fenchel, cremiger Kontrast und nussiger Crunch."],
+            ["Profi-Tipps", "Fenchel gut abtropfen lassen. Crème sparsam einsetzen. Kürbiskerne ganz zuletzt aufstreuen."]
+          ]
+        },
+        {
+          id: "hauptspeise",
+          label: "Hauptspeise",
+          title: "Pulled Pork Apple Bourbon BBQ Style",
+          subtitle: "vom Schweinenacken",
+          image: "assets/apple-bourbon-smoke/Hauptspeise.png",
+          meta: ["3,2 kg Schweinenacken", "Pelletgrill 110-120 °C", "12-16 Stunden Gesamtzeit"],
+          intro:
+            "Der Kern des Menüs: mild geräuchertes Pulled Pork mit dunkler Bark, saftigem Pull und glänzender Apple-Bourbon-BBQ-Sauce.",
+          shopping: [
+            ["Fleisch & Brine", "Schweinenacken oder Boston Butt 3,2 kg, feines Meersalz 48 g"],
+            ["Rub", "Brauner Zucker 45 g, Paprika 28 g, geräuchertes Paprikapulver 12 g, Pfeffer 14 g, Knoblauch, Zwiebel, Senf, Chili, Kreuzkümmel, Cayenne"],
+            ["Binder", "Mittelscharfer Senf 45 g, Worcestersauce 15 ml"],
+            ["Apple-Bourbon-Sauce", "Ketchup 250 g, Apfelsaft 150 ml, Apfelessig 70 ml, brauner Zucker 55 g, Ahornsirup 35 g, Bourbon 40 ml, Butter 25 g"],
+            ["Wrap & Rauch", "Butter oder Schmalz 50 g, Apfelsaft 80 ml, Apfel- oder Kirschpellets, optional wenig Hickory"]
+          ],
+          steps: [
+            "Fleisch trocken tupfen, Fettdeckel auf 5-8 mm angleichen, rundum salzen und 12-18 Stunden dry brinen.",
+            "Rub mischen, Sauce 12-15 Minuten köcheln lassen und am Ende Butter einrühren.",
+            "Fleisch mit Senf und Worcestersauce dünn einreiben, Rub auftragen und bei 110-115 °C smoken.",
+            "Nach 4-6 Stunden bei stabiler Bark und etwa 70-78 °C Kerntemperatur mit Butter und Apfelsaft wrappen.",
+            "Bei 120 °C bis 92-96 °C Kerntemperatur fertig garen, kurz ausdampfen und 60-120 Minuten ruhen lassen.",
+            "Grob pullen, Garjus auffangen, Fett entfernen, wenig Jus und BBQ-Sauce unterheben und mit Apfelessig abrunden."
+          ],
+          panels: [
+            ["Kerntemperaturen", "Smoke & Bark: 110-115 °C Grill. Wrap: 70-78 °C KT. Fertig: 92-96 °C KT."],
+            ["Zeitplan", "Vortag salzen. Eine Stunde vorher Rub und Sauce. Nach 4-6 Stunden wrappen. Vor Service pullen."],
+            ["Profi-Tipps", "Deckel selten öffnen. Erst wrappen, wenn die Bark fest ist. Hickory sparsam verwenden."]
+          ]
+        },
+        {
+          id: "beilage",
+          label: "Beilage",
+          title: "Apfel-Fenchel-Slaw",
+          subtitle: "mit gegrilltem Mais & Kürbiskernen",
+          image: "assets/apple-bourbon-smoke/Beilage.png",
+          meta: ["6 Portionen", "Plancha 200-220 °C", "Kühl · knackig · frisch"],
+          intro:
+            "Der frische Gegenpol zum Pulled Pork: Kohl und Fenchel bleiben knackig, Apfel bringt Säure und Mais liefert süße Röstaromen.",
+          shopping: [
+            ["Hauptkomponenten", "Weißkohl 500 g, Fenchel 2 Stück, säuerliche Äpfel 2 Stück, Maiskolben 3 Stück"],
+            ["Dressing", "Griechischer Joghurt 180 g, Mayonnaise 70 g, Limettensaft 45 ml, Apfelessig 35 ml, Dijon-Senf 20 g, Honig 20 g"],
+            ["Crunch & Topping", "Kürbiskerne 45 g, optional Röstzwiebeln 25 g"],
+            ["Gewürze", "Salz ca. 15 g, schwarzer Pfeffer 3 g, Selleriesaat oder Fenchelsaat 2 g, milde Chiliflocken 1 g"],
+            ["Kräuter & Grillen", "Petersilie 20 g, Schnittlauch 15 g, Fenchelgrün, Rapsöl 20 ml, Butter 25 g"]
+          ],
+          steps: [
+            "Kohl sehr fein hobeln, mit 12 g Salz vermengen, leicht kneten, 20 Minuten ziehen lassen und ausdrücken.",
+            "Fenchel fein hobeln, Fenchelgrün aufbewahren und Äpfel in Stifte schneiden. Apfel sofort mit Limette mischen.",
+            "Joghurt, Mayonnaise, Limette, Essig, Senf und Honig verrühren und frisch-säuerlich abschmecken.",
+            "Mais mit Öl einreiben, 8-10 Minuten bei 200-220 °C grillen, mit Butter bepinseln und vom Kolben schneiden.",
+            "Kohl, Fenchel, Apfel und Mais mischen. Dressing erst 10-15 Minuten vor dem Servieren unterheben.",
+            "Kürbiskerne trocken rösten und mit Kräutern, Fenchelgrün und optional Röstzwiebeln zuletzt aufstreuen."
+          ],
+          panels: [
+            ["Timing", "Während das Pulled Pork ruht: Mais grillen, Slaw mischen, 10-15 Minuten vor Service dressingieren."],
+            ["Textur", "Kühl, knackig, säuerlich und frisch. Der Slaw darf nicht früh matschig werden."],
+            ["Profi-Tipps", "Kohl kneten, Äpfel mit Limette schützen, Dressing eher säuerlich halten, Kerne zuletzt auftragen."]
+          ]
+        },
+        {
+          id: "dessert",
+          label: "Dessert",
+          title: "Gegrillter Apfel",
+          subtitle: "mit Bourbon-Karamell, Vanille-Crème & Pekan-Crunch",
+          image: "assets/apple-bourbon-smoke/Dessert.png",
+          meta: ["6 Apfelhälften", "Grill 180-200 °C", "Warm · kalt · süß · rauchig"],
+          intro:
+            "Ein elegantes BBQ-Dessert mit warmem Apfel, kühler Crème, glänzendem Bourbon-Karamell und knusprigem Pekan-Crunch.",
+          shopping: [
+            ["Äpfel", "6 große säuerliche Äpfel, Zitronensaft 20 ml, weiche Butter 35 g, brauner Zucker 25 g, Zimt, Salz"],
+            ["Bourbon-Karamell", "Zucker 150 g, Wasser 35 ml, Sahne 120 ml, Butter 35 g, Bourbon 40 ml, Salz 2 g, optional Rauchsalz"],
+            ["Vanille-Crème", "Mascarpone 180 g, griechischer Joghurt 160 g, Sahne 100 ml, Puderzucker 35 g, Vanilleschote, Zitrone, Salz"],
+            ["Pekan-Crunch", "Pekannüsse 90 g, Haferflocken 35 g, Butter 25 g, brauner Zucker 25 g, Ahornsirup oder Honig 15 g, Zimt"],
+            ["Finish", "Zitronenabrieb, Minze oder Thymian, optional Puderzucker und sehr wenig Rauchsalz"]
+          ],
+          steps: [
+            "Sahne halbsteif schlagen, Mascarpone, Joghurt, Puderzucker, Vanille, Zitrone und Salz glatt rühren und Sahne unterheben.",
+            "Zucker und Wasser goldbraun karamellisieren, warme Sahne, Butter und Bourbon einrühren und mit Salz abschmecken.",
+            "Pekannüsse, Haferflocken, Butter, Zucker, Ahornsirup, Salz und Zimt 4-6 Minuten rösten und auskühlen lassen.",
+            "Äpfel halbieren, Kerngehäuse entfernen, mit Zitrone bepinseln und mit Butter-Zucker-Zimt-Mix bestreichen.",
+            "Äpfel 2-3 Minuten direkt angrillen, wenden und indirekt bei geschlossenem Deckel 5-8 Minuten weichziehen lassen.",
+            "Warmen Apfel mit warmem Karamell, kalter Vanille-Crème, Pekan-Crunch, Zitrone und Kräutern anrichten."
+          ],
+          panels: [
+            ["Grill-Setup", "Plancha oder Grill, 180-200 °C, direkte und indirekte Zone. Erst offen, dann geschlossen."],
+            ["Ziel", "Apfel weich, aber formstabil. Karamell glänzend. Crème kalt und standfest. Crunch trocken."],
+            ["Profi-Tipps", "Karamell nur bernsteinfarben kochen. Crunch immer zuletzt. Eine Spur Rauchsalz reicht."]
+          ]
+        }
+      ];
 
-      function getActiveIndex() {
-        const trackLeft = track.getBoundingClientRect().left;
-        return slides.reduce((closest, slide, index) => {
-          const distance = Math.abs(slide.getBoundingClientRect().left - trackLeft);
-          return distance < closest.distance ? { index, distance } : closest;
-        }, { index: 0, distance: Infinity }).index;
+      const courseGrid = document.querySelector("#courseGrid");
+      const detail = document.querySelector("#detail");
+      const navButtons = [...document.querySelectorAll("[data-view]")];
+      const views = [...document.querySelectorAll(".view")];
+
+      function buttonFor(label, id) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = label;
+        button.dataset.view = id;
+        button.addEventListener("click", () => showView(id));
+        return button;
       }
 
-      function goToSlide(target) {
-        const slide = document.getElementById(target);
-        if (!slide) return;
-        slide.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-      }
-
-      function updateReader() {
-        const activeIndex = getActiveIndex();
-        const activeSlide = slides[activeIndex];
-        const activeId = activeSlide.id;
-        statusText.textContent = `${activeSlide.dataset.title} ${activeIndex + 1} von ${slides.length}`;
-
-        navButtons.forEach((button) => {
-          button.classList.toggle("is-active", button.dataset.target === activeId);
+      function renderOverview() {
+        courseGrid.innerHTML = "";
+        courses.forEach((course) => {
+          const card = document.createElement("article");
+          card.className = "course-card";
+          card.innerHTML = `
+            <img src="${course.image}" alt="${course.title}" />
+            <div class="course-card-body">
+              <p class="eyebrow">${course.label}</p>
+              <h3>${course.title}</h3>
+              <p>${course.subtitle}</p>
+            </div>
+          `;
+          card.addEventListener("click", () => showView(course.id));
+          card.tabIndex = 0;
+          card.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              showView(course.id);
+            }
+          });
+          courseGrid.append(card);
         });
       }
 
-      navButtons.forEach((button) => {
-        button.addEventListener("click", () => goToSlide(button.dataset.target));
-      });
+      function listItems(items) {
+        return items.map((item) => `<li>${item}</li>`).join("");
+      }
 
-      directionButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const nextIndex = Math.min(
-            slides.length - 1,
-            Math.max(0, getActiveIndex() + Number(button.dataset.direction)),
-          );
-          goToSlide(slides[nextIndex].id);
-        });
-      });
+      function renderDetail(course) {
+        detail.innerHTML = `
+          <div class="detail-shell">
+            <div class="detail-hero">
+              <img src="${course.image}" alt="${course.title}" />
+              <div class="detail-title">
+                <p class="eyebrow">${course.label}</p>
+                <h2>${course.title}</h2>
+                <p class="subtitle">${course.subtitle}</p>
+                <p>${course.intro}</p>
+                <div class="meta-row">${course.meta.map((item) => `<span>${item}</span>`).join("")}</div>
+              </div>
+            </div>
 
-      track.addEventListener("scroll", () => window.requestAnimationFrame(updateReader));
-      track.addEventListener("keydown", (event) => {
-        if (event.key === "ArrowRight") {
-          event.preventDefault();
-          directionButtons[1].click();
+            <div class="info-layout">
+              <section class="content-block">
+                <p class="eyebrow">Einkaufsliste</p>
+                <h3>Zutaten für 6 Personen</h3>
+                <div class="shopping-grid">
+                  ${course.shopping
+                    .map(([title, text]) => `<article><h4>${title}</h4><p>${text}</p></article>`)
+                    .join("")}
+                </div>
+              </section>
+
+              <section class="content-block process-block">
+                <p class="eyebrow">Rezept</p>
+                <h3>Ablauf Schritt für Schritt</h3>
+                <ol class="steps">${listItems(course.steps)}</ol>
+              </section>
+
+              <section class="panel-grid">
+                ${course.panels
+                  .map(([title, text]) => `<article class="note-panel"><h4>${title}</h4><p>${text}</p></article>`)
+                  .join("")}
+              </section>
+            </div>
+          </div>
+        `;
+      }
+
+      function showView(id) {
+        navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.view === id));
+
+        if (id === "overview") {
+          views.forEach((view) => view.classList.toggle("is-active", view.id === "overview"));
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
         }
-        if (event.key === "ArrowLeft") {
-          event.preventDefault();
-          directionButtons[0].click();
-        }
-      });
 
-      updateReader();
+        const course = courses.find((item) => item.id === id);
+        if (!course) return;
+        renderDetail(course);
+        views.forEach((view) => view.classList.toggle("is-active", view.id === "detail"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      renderOverview();
     </script>
   </body>
 </html>
