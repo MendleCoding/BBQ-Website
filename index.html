@@ -216,6 +216,10 @@
       function renderDetail(course) {
         detail.innerHTML = `
           <div class="detail-shell">
+            <div class="page-actions" aria-label="Navigation">
+              <button type="button" class="back-button" data-action="overview">Zur Speisekarte</button>
+            </div>
+
             <div class="detail-hero">
               <img src="${course.image}" alt="${course.title}" />
               <div class="detail-title">
@@ -227,31 +231,97 @@
               </div>
             </div>
 
-            <div class="info-layout">
-              <section class="content-block">
-                <p class="eyebrow">Einkaufsliste</p>
-                <h3>Zutaten für 6 Personen</h3>
-                <div class="shopping-grid">
-                  ${course.shopping
-                    .map(([title, text]) => `<article><h4>${title}</h4><p>${text}</p></article>`)
-                    .join("")}
-                </div>
-              </section>
+            <section class="choice-grid" aria-label="Unterseiten">
+              <button type="button" class="choice-card" data-action="shopping" data-course="${course.id}">
+                <span class="eyebrow">Einkaufsliste</span>
+                <strong>Zutaten & Mengen</strong>
+                <span>Gruppiert nach Komponenten für 6 Personen.</span>
+              </button>
+              <button type="button" class="choice-card" data-action="recipe" data-course="${course.id}">
+                <span class="eyebrow">Rezept</span>
+                <strong>Zubereitung & Setup</strong>
+                <span>Ablauf, Temperaturen, Timing und Profi-Hinweise.</span>
+              </button>
+            </section>
+          </div>
+        `;
+        bindDetailActions();
+      }
 
-              <section class="content-block process-block">
-                <p class="eyebrow">Rezept</p>
-                <h3>Ablauf Schritt für Schritt</h3>
-                <ol class="steps">${listItems(course.steps)}</ol>
-              </section>
-
-              <section class="panel-grid">
-                ${course.panels
-                  .map(([title, text]) => `<article class="note-panel"><h4>${title}</h4><p>${text}</p></article>`)
-                  .join("")}
-              </section>
+      function renderSubpageHeader(course, title, text) {
+        return `
+          <div class="subpage-header">
+            <div>
+              <p class="eyebrow">${course.label}</p>
+              <h2>${course.title}: ${title}</h2>
+              <p>${text}</p>
+            </div>
+            <div class="page-actions compact" aria-label="Zurück">
+              <button type="button" class="back-button" data-action="course" data-course="${course.id}">Zum Gang</button>
+              <button type="button" class="back-button" data-action="overview">Zur Speisekarte</button>
             </div>
           </div>
         `;
+      }
+
+      function renderShopping(course) {
+        detail.innerHTML = `
+          <div class="detail-shell">
+            ${renderSubpageHeader(course, "Einkaufsliste", "Alle Zutaten direkt aus der Einkaufsliste, gruppiert für den schnellen Einkauf.")}
+            <section class="content-block full-page-block">
+              <p class="eyebrow">${course.label}</p>
+              <h3>Zutaten für 6 Personen</h3>
+              <div class="shopping-grid spacious">
+                ${course.shopping
+                  .map(([title, text]) => `<article><h4>${title}</h4><p>${text}</p></article>`)
+                  .join("")}
+              </div>
+            </section>
+          </div>
+        `;
+        bindDetailActions();
+      }
+
+      function renderRecipe(course) {
+        detail.innerHTML = `
+          <div class="detail-shell">
+            ${renderSubpageHeader(course, "Rezept", "Der komplette Ablauf als klare Arbeitsseite mit Setup, Timing und Profi-Hinweisen.")}
+            <section class="content-block full-page-block process-block">
+              <p class="eyebrow">${course.label}</p>
+              <h3>Ablauf Schritt für Schritt</h3>
+              <ol class="steps spacious">${listItems(course.steps)}</ol>
+            </section>
+            <section class="panel-grid">
+              ${course.panels
+                .map(([title, text]) => `<article class="note-panel"><h4>${title}</h4><p>${text}</p></article>`)
+                .join("")}
+            </section>
+          </div>
+        `;
+        bindDetailActions();
+      }
+
+      function bindDetailActions() {
+        detail.querySelectorAll("[data-action]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const course = courses.find((item) => item.id === button.dataset.course);
+            if (button.dataset.action === "overview") {
+              showView("overview");
+            }
+            if (button.dataset.action === "course" && course) {
+              renderDetail(course);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+            if (button.dataset.action === "shopping" && course) {
+              renderShopping(course);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+            if (button.dataset.action === "recipe" && course) {
+              renderRecipe(course);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          });
+        });
       }
 
       function showView(id) {
