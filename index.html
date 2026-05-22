@@ -3,117 +3,159 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BBQ Auswahl</title>
-    <link rel="preconnect" href="https://images.unsplash.com" />
+    <title>Cherry Bourbon BBQ Competition Menü</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="page-shell">
-      <section class="menu-board" aria-labelledby="page-title">
-        <div class="intro">
-          <p class="eyebrow">Sommergrill-Menü</p>
-          <h1 id="page-title">BBQ Auswahl</h1>
-          <p class="lead">
-            Ein rauchiges Menü mit frischer Vorspeise, saftiger Hauptspeise,
-            knuspriger Beilage und einem kühlen Dessert.
-          </p>
+    <main class="app-shell">
+      <header class="topbar" aria-label="Menü Navigation">
+        <div>
+          <p class="eyebrow">BBQ Auswahl</p>
+          <h1>Cherry Bourbon BBQ Competition Menü</h1>
         </div>
 
-        <div class="dish-grid" aria-label="Empfohlenes BBQ Menü">
-          <article class="dish-card">
-            <img
-              src="https://images.unsplash.com/photo-1541014741259-de529411b96a?auto=format&fit=crop&w=900&q=80"
-              alt="Gegrilltes Brot mit Tomaten und Kräutern"
-            />
-            <div>
-              <span>Vorspeise</span>
-              <h2>Bruschetta vom Grill</h2>
-              <p>Geröstetes Brot, Tomaten, Basilikum, Knoblauch und Olivenöl.</p>
+        <nav class="quick-nav" aria-label="Direkt zu den Gängen">
+          <button type="button" data-target="menuekarte">Menü</button>
+          <button type="button" data-target="vorspeise">Vorspeise</button>
+          <button type="button" data-target="hauptgang">Hauptgang</button>
+          <button type="button" data-target="beilage">Beilage</button>
+          <button type="button" data-target="desert">Desert</button>
+        </nav>
+      </header>
+
+      <section class="menu-reader" aria-label="Swipebares BBQ Menü">
+        <div class="reader-actions" aria-label="Blättern">
+          <button class="icon-button" type="button" data-direction="-1" aria-label="Vorherige Seite">
+            ‹
+          </button>
+          <p id="reader-status">Menükarte 1 von 5</p>
+          <button class="icon-button" type="button" data-direction="1" aria-label="Nächste Seite">
+            ›
+          </button>
+        </div>
+
+        <div class="slide-track" tabindex="0">
+          <article class="slide" id="menuekarte" data-title="Menükarte">
+            <div class="image-stage menu-stage">
+              <img
+                src="assets/menuekarte.png"
+                alt="Cherry Bourbon BBQ Competition Menükarte mit Vorspeise, Hauptgang, Beilage und Desert"
+              />
+              <div class="menu-hotspots" aria-label="Menükarte Bereiche">
+                <button type="button" data-target="vorspeise">Vorspeise</button>
+                <button type="button" data-target="hauptgang">Hauptgang</button>
+                <button type="button" data-target="beilage">Beilage</button>
+                <button type="button" data-target="desert">Desert</button>
+              </div>
             </div>
           </article>
 
-          <article class="dish-card featured">
-            <img
-              src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1100&q=80"
-              alt="BBQ Rippchen mit glänzender Sauce auf einem Holzbrett"
-            />
-            <div>
-              <span>Hauptspeise</span>
-              <h2>Smoky BBQ Ribs</h2>
-              <p>Zarte Rippchen mit würziger Marinade und karamellisierter BBQ-Sauce.</p>
+          <article class="slide" id="vorspeise" data-title="Vorspeise">
+            <div class="image-stage">
+              <img
+                src="assets/vorspeise.png"
+                alt="Smoked Camembert Crostini mit Cherry-Chili-Relish Rezeptkarte"
+              />
             </div>
           </article>
 
-          <article class="dish-card">
-            <img
-              src="https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&fit=crop&w=900&q=80"
-              alt="Goldbraune gegrillte Kartoffeln in einer Schale"
-            />
-            <div>
-              <span>Beilage</span>
-              <h2>Grillkartoffeln</h2>
-              <p>Mit Rosmarin, Meersalz, Paprika und einem Klecks Sour Cream.</p>
+          <article class="slide" id="hauptgang" data-title="Hauptgang">
+            <div class="image-stage">
+              <img
+                src="assets/hauptgang.png"
+                alt="Cherry Bourbon Ribs High-End Competition Style Rezeptkarte"
+              />
             </div>
           </article>
 
-          <article class="dish-card">
-            <img
-              src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&w=900&q=80"
-              alt="Cremiges Dessert im Glas mit Beeren"
-            />
-            <div>
-              <span>Dessert</span>
-              <h2>Beeren-Cheesecake im Glas</h2>
-              <p>Kalte Creme, Keksboden, frische Beeren und etwas Limettenabrieb.</p>
+          <article class="slide" id="beilage" data-title="Beilage">
+            <div class="image-stage">
+              <img
+                src="assets/beilage.png"
+                alt="Limetten-Fenchel-Slaw mit gegrilltem Mais, Apfel, Jalapeño und Kirsch-Crunch Rezeptkarte"
+              />
+            </div>
+          </article>
+
+          <article class="slide" id="desert" data-title="Desert">
+            <div class="image-stage">
+              <img
+                src="assets/desert.png"
+                alt="Bourbon Cherry Cobbler vom Grill mit Vanillecreme Rezeptkarte"
+              />
             </div>
           </article>
         </div>
-      </section>
 
-      <section class="content-grid" aria-label="Rezept und Einkaufsliste">
-        <article class="recipe-panel">
-          <div class="section-heading">
-            <p class="eyebrow">Rezept</p>
-            <h2>Smoky BBQ Ribs</h2>
-          </div>
-
-          <div class="recipe-meta" aria-label="Rezeptdaten">
-            <span>4 Portionen</span>
-            <span>25 Min. Vorbereitung</span>
-            <span>2,5 Std. Grillzeit</span>
-          </div>
-
-          <ol class="steps">
-            <li>Silberhaut der Rippchen entfernen und das Fleisch trocken tupfen.</li>
-            <li>Rub aus Paprika, braunem Zucker, Salz, Pfeffer, Knoblauch und Chili einmassieren.</li>
-            <li>Rippchen bei indirekter Hitze etwa 2 Stunden bei 130 bis 150 Grad garen.</li>
-            <li>Mit BBQ-Sauce bestreichen und weitere 20 bis 30 Minuten glasieren.</li>
-            <li>Kurz ruhen lassen, aufschneiden und mit Grillkartoffeln servieren.</li>
-          </ol>
-        </article>
-
-        <aside class="shopping-panel" aria-labelledby="shopping-title">
-          <div class="section-heading">
-            <p class="eyebrow">Einkaufsliste</p>
-            <h2 id="shopping-title">Für das komplette Menü</h2>
-          </div>
-
-          <ul class="shopping-list">
-            <li><span>2 kg</span> Schweinerippchen</li>
-            <li><span>250 ml</span> BBQ-Sauce</li>
-            <li><span>4 EL</span> brauner Zucker</li>
-            <li><span>3 EL</span> geräuchertes Paprikapulver</li>
-            <li><span>1 TL</span> Chiliflocken</li>
-            <li><span>1 Bund</span> Basilikum</li>
-            <li><span>6</span> reife Tomaten</li>
-            <li><span>1</span> Baguette</li>
-            <li><span>1 kg</span> kleine Kartoffeln</li>
-            <li><span>200 g</span> Sour Cream</li>
-            <li><span>400 g</span> Frischkäse</li>
-            <li><span>300 g</span> gemischte Beeren</li>
-          </ul>
-        </aside>
+        <div class="progress-dots" aria-label="Seiten">
+          <button type="button" data-target="menuekarte" aria-label="Menükarte anzeigen"></button>
+          <button type="button" data-target="vorspeise" aria-label="Vorspeise anzeigen"></button>
+          <button type="button" data-target="hauptgang" aria-label="Hauptgang anzeigen"></button>
+          <button type="button" data-target="beilage" aria-label="Beilage anzeigen"></button>
+          <button type="button" data-target="desert" aria-label="Desert anzeigen"></button>
+        </div>
       </section>
     </main>
+
+    <script>
+      const track = document.querySelector(".slide-track");
+      const slides = [...document.querySelectorAll(".slide")];
+      const statusText = document.querySelector("#reader-status");
+      const navButtons = [...document.querySelectorAll("[data-target]")];
+      const directionButtons = [...document.querySelectorAll("[data-direction]")];
+
+      function getActiveIndex() {
+        const trackLeft = track.getBoundingClientRect().left;
+        return slides.reduce((closest, slide, index) => {
+          const distance = Math.abs(slide.getBoundingClientRect().left - trackLeft);
+          return distance < closest.distance ? { index, distance } : closest;
+        }, { index: 0, distance: Infinity }).index;
+      }
+
+      function goToSlide(target) {
+        const slide = document.getElementById(target);
+        if (!slide) return;
+        slide.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      }
+
+      function updateReader() {
+        const activeIndex = getActiveIndex();
+        const activeSlide = slides[activeIndex];
+        const activeId = activeSlide.id;
+        statusText.textContent = `${activeSlide.dataset.title} ${activeIndex + 1} von ${slides.length}`;
+
+        navButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.target === activeId);
+        });
+      }
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => goToSlide(button.dataset.target));
+      });
+
+      directionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const nextIndex = Math.min(
+            slides.length - 1,
+            Math.max(0, getActiveIndex() + Number(button.dataset.direction)),
+          );
+          goToSlide(slides[nextIndex].id);
+        });
+      });
+
+      track.addEventListener("scroll", () => window.requestAnimationFrame(updateReader));
+      track.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          directionButtons[1].click();
+        }
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          directionButtons[0].click();
+        }
+      });
+
+      updateReader();
+    </script>
   </body>
 </html>
