@@ -28,6 +28,9 @@
       <section class="view overview-view is-active" id="overview" aria-labelledby="overview-title">
         <div class="menu-hero">
           <img
+            class="open-image"
+            data-image-src="assets/apple-bourbon-smoke/Speisekarte.png"
+            data-image-title="Apple Bourbon Smoke Menü"
             src="assets/apple-bourbon-smoke/Speisekarte.png"
             alt="Apple Bourbon Smoke Menü mit Vorspeise, Hauptgang, Beilage und Dessert"
           />
@@ -45,6 +48,7 @@
       </section>
 
       <section class="view detail-view" id="detail" aria-live="polite"></section>
+      <section class="view image-view" id="imageViewer" aria-live="polite"></section>
     </main>
 
     <script>
@@ -172,8 +176,11 @@
 
       const courseGrid = document.querySelector("#courseGrid");
       const detail = document.querySelector("#detail");
+      const imageViewer = document.querySelector("#imageViewer");
       const navButtons = [...document.querySelectorAll("[data-view]")];
       const views = [...document.querySelectorAll(".view")];
+      let currentView = { type: "overview" };
+      let previousView = { type: "overview" };
 
       function buttonFor(label, id) {
         const button = document.createElement("button");
@@ -214,6 +221,7 @@
       }
 
       function renderDetail(course) {
+        currentView = { type: "course", courseId: course.id };
         detail.innerHTML = `
           <div class="detail-shell">
             <div class="page-actions" aria-label="Navigation">
@@ -221,7 +229,7 @@
             </div>
 
             <div class="detail-hero">
-              <img src="${course.image}" alt="${course.title}" />
+              <img class="open-image" data-image-src="${course.image}" data-image-title="${course.title}" src="${course.image}" alt="${course.title}" />
               <div class="detail-title">
                 <p class="eyebrow">${course.label}</p>
                 <h2>${course.title}</h2>
@@ -246,6 +254,7 @@
           </div>
         `;
         bindDetailActions();
+        bindImageOpeners();
       }
 
       function renderSubpageHeader(course, title, text) {
@@ -265,6 +274,7 @@
       }
 
       function renderShopping(course) {
+        currentView = { type: "shopping", courseId: course.id };
         detail.innerHTML = `
           <div class="detail-shell">
             ${renderSubpageHeader(course, "Einkaufsliste", "Alle Zutaten direkt aus der Einkaufsliste, gruppiert für den schnellen Einkauf.")}
@@ -283,6 +293,7 @@
       }
 
       function renderRecipe(course) {
+        currentView = { type: "recipe", courseId: course.id };
         detail.innerHTML = `
           <div class="detail-shell">
             ${renderSubpageHeader(course, "Rezept", "Der komplette Ablauf als klare Arbeitsseite mit Setup, Timing und Profi-Hinweisen.")}
@@ -324,10 +335,64 @@
         });
       }
 
+      function bindImageOpeners() {
+        document.querySelectorAll(".open-image").forEach((image) => {
+          image.addEventListener("click", () => showImage(image.dataset.imageSrc, image.dataset.imageTitle));
+          image.tabIndex = 0;
+          image.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              showImage(image.dataset.imageSrc, image.dataset.imageTitle);
+            }
+          });
+        });
+      }
+
+      function showImage(src, title) {
+        previousView = { ...currentView };
+        imageViewer.innerHTML = `
+          <div class="image-only-shell">
+            <div class="page-actions" aria-label="Bildnavigation">
+              <button type="button" class="back-button" data-image-back>Zurück</button>
+              <button type="button" class="back-button" data-action="overview">Zur Speisekarte</button>
+            </div>
+            <img src="${src}" alt="${title}" />
+          </div>
+        `;
+        views.forEach((view) => view.classList.toggle("is-active", view.id === "imageViewer"));
+        navButtons.forEach((button) => button.classList.remove("is-active"));
+        imageViewer.querySelector("[data-image-back]").addEventListener("click", restorePreviousView);
+        imageViewer.querySelector("[data-action='overview']").addEventListener("click", () => showView("overview"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function restorePreviousView() {
+        if (previousView.type === "overview") {
+          showView("overview");
+          return;
+        }
+
+        const course = courses.find((item) => item.id === previousView.courseId);
+        if (!course) {
+          showView("overview");
+          return;
+        }
+
+        views.forEach((view) => view.classList.toggle("is-active", view.id === "detail"));
+        navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.view === course.id));
+
+        if (previousView.type === "shopping") renderShopping(course);
+        if (previousView.type === "recipe") renderRecipe(course);
+        if (previousView.type === "course") renderDetail(course);
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
       function showView(id) {
         navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.view === id));
 
         if (id === "overview") {
+          currentView = { type: "overview" };
           views.forEach((view) => view.classList.toggle("is-active", view.id === "overview"));
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;
@@ -341,6 +406,7 @@
       }
 
       renderOverview();
+      bindImageOpeners();
     </script>
   </body>
 </html>
